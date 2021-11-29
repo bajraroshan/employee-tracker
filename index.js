@@ -4,7 +4,7 @@ const { printTable } = require("console-table-printer");
 const db = require("./config/connection");
 var figlet = require("figlet");
 
-
+// Figlet for Big Employee Management System
 figlet("Employee \n Management \n System", function (err, data) {
   if (err) {
     console.log("Something went wrong...");
@@ -15,9 +15,9 @@ figlet("Employee \n Management \n System", function (err, data) {
   userPrompt();
 });
 
+// Confirmation function to continue
 const confirmation = () => {
-  inquirer
-    .prompt([
+  inquirer.prompt([
       {
         type: "list",
         name: "again",
@@ -35,12 +35,12 @@ const confirmation = () => {
     });
 };
 
+// Inquirer Prompt or Main Menu
 const userPrompt = () => {
-  inquirer
-    .prompt([
+  inquirer.prompt([
       {
         type: "list",
-        name: "userSelect",
+        name: "promptSelection",
         message: `What would you like to do?`,
         choices: [
           "View All Department",
@@ -61,55 +61,56 @@ const userPrompt = () => {
         ],
       },
     ])
-    .then(({ userSelect }) => {
-      if (userSelect === "View All Department") {
+    .then(({ promptSelection }) => {
+      if (promptSelection === "View All Department") {
         viewDepartment();
       }
-      if (userSelect === "View All Role") {
+      if (promptSelection === "View All Role") {
         viewRole();
       }
-      if (userSelect === "View All Employees") {
+      if (promptSelection === "View All Employees") {
         viewEmployees();
       }
-      if (userSelect === "Add a Department") {
+      if (promptSelection === "Add a Department") {
         addDepartment();
       }
-      if (userSelect === "Add a Role") {
+      if (promptSelection === "Add a Role") {
         addRole();
       }
-      if (userSelect === "Add an Employee") {
+      if (promptSelection === "Add an Employee") {
         addEmployee();
       }
-      if (userSelect === "Update an Employee Role") {
+      if (promptSelection === "Update an Employee Role") {
         updateEmployee();
       }
-      if (userSelect === "Update Employee Manager") {
+      if (promptSelection === "Update Employee Manager") {
         updateEmployeeManager();
       }
-      if (userSelect === "View All Employees By Manager") {
+      if (promptSelection === "View All Employees By Manager") {
         viewEmployeeByManager();
       }
-      if (userSelect === "View All Employees By Department") {
+      if (promptSelection === "View All Employees By Department") {
         viewEmployeebyDepartment();
       }
-      if (userSelect === "Delete Department") {
+      if (promptSelection === "Delete Department") {
         deleteDepartment();
       }
-      if (userSelect === "Delete Role") {
+      if (promptSelection === "Delete Role") {
         deleteRole();
       }
-      if (userSelect === "Delete Employee") {
+      if (promptSelection === "Delete Employee") {
         deleteEmployee();
       }
-      if (userSelect === "View Total Utilized Budget By Department") {
+      if (promptSelection === "View Total Utilized Budget By Department") {
         viewBudget();
       }
-      if (userSelect === "EXIT") {
+      if (promptSelection === "EXIT") {
         exit();
       }
     });
 };
 
+// Function for viewing all the employee
 viewEmployees = () =>
   db
     .promise()
@@ -129,6 +130,7 @@ viewEmployees = () =>
       confirmation();
     });
 
+// Function for Adding an employee
 addEmployee = () => {
   inquirer
     .prompt([
@@ -219,6 +221,7 @@ addEmployee = () => {
     });
 };
 
+// Function for Updating Employee
 updateEmployee = () => {
   db.query(`SELECT * FROM employee`, (err, data) => {
     if (err) throw err;
@@ -272,6 +275,7 @@ updateEmployee = () => {
   });
 };
 
+// Function for Deleting Employee
 deleteEmployee = () => {
   db.query(`SELECT * FROM employee`, (err, data) => {
     if (err) throw err;
@@ -307,6 +311,7 @@ deleteEmployee = () => {
   });
 };
 
+// Function for viewing employee according to department
 viewEmployeebyDepartment = () =>
   db
     .promise()
@@ -322,6 +327,7 @@ viewEmployeebyDepartment = () =>
       confirmation();
     });
 
+// Function for viewing employee according to manager
 viewEmployeeByManager = () =>
   db
     .promise()
@@ -339,6 +345,7 @@ viewEmployeeByManager = () =>
       confirmation();
     });
 
+// Function for updating Manager for an employee
 updateEmployeeManager = () => {
   db.query(`SELECT * FROM employee`, (err, data) => {
     if (err) throw err;
@@ -391,6 +398,7 @@ updateEmployeeManager = () => {
   });
 };
 
+// Function for viewing department by budget
 viewBudget = () => {
   db.query(
     `SELECT department.name AS Department,
@@ -406,6 +414,7 @@ viewBudget = () => {
   );
 };
 
+// Function for viewing department only
 viewDepartment = () => {
   db.query(
     `SELECT department.name AS Department FROM department`,
@@ -417,6 +426,7 @@ viewDepartment = () => {
   );
 };
 
+// Function for adding department
 addDepartment = () => {
   inquirer
     .prompt([
@@ -439,6 +449,7 @@ addDepartment = () => {
     });
 };
 
+// Function for deleting department
 deleteDepartment = () => {
   db.query(`SELECT * FROM department`, (err, data) => {
     if (err) throw err;
@@ -469,6 +480,7 @@ deleteDepartment = () => {
   });
 };
 
+// Function for viewing roles
 viewRole = () => {
   db.query(
     `SELECT role.title AS Title,
@@ -483,6 +495,7 @@ viewRole = () => {
   );
 };
 
+// Function for adding role
 addRole = () => {
   inquirer
     .prompt([
@@ -540,6 +553,7 @@ addRole = () => {
     });
 };
 
+// Function for deleting department
 deleteRole = () => {
   db.query(`SELECT * FROM role`, (err, data) => {
     if (err) throw err;
@@ -570,6 +584,7 @@ deleteRole = () => {
   });
 };
 
+// Function for exit
 exit = () => {
   process.exit();
 };
